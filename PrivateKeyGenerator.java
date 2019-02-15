@@ -24,14 +24,18 @@ public class PrivateKeyGenerator
 		System.out.println(sha);
 		System.out.println(sha2);
 		String EightyFour= Eighty4(sha2,Eighty);
-		Base58CheckEncoding base = new Base58CheckEncoding();
-        System.out.println(base.convertToBase58(EightyFour,16));
+		byte[] b = EightyFour.getBytes();
+		Base58  base12 = new Base58();
+        String hello=base12.encode(b);
+        String hey=hello.substring(1,51);
+        String bye ="5"+hey;
+        System.out.println(bye);
 		}catch (NoSuchAlgorithmException e){}
-		
-		
-		
-	
-		
+
+
+
+
+
 	}
 	public static String RandomHex(int length)
 	{
@@ -44,7 +48,7 @@ public class PrivateKeyGenerator
 		sb.setLength(length);
 		System.out.println(sb.toString());
 		return sb.toString();
-		
+
 	}
 	public static String AddEighty(String Original)
 	{
@@ -58,7 +62,7 @@ public class PrivateKeyGenerator
 		System.out.println(EightyFour);
 		return EightyFour;
 	}
-	
+
 }
 	class SHA256 {
 	static String sha256(String input) throws NoSuchAlgorithmException {
@@ -82,15 +86,15 @@ public class PrivateKeyGenerator
 	}
 	}
 
-	class Base58CheckEncoding {
+class Base58CheckEncoding {
     private static final String ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
     private static final BigInteger BIG0 = BigInteger.ZERO;
     private static final BigInteger BIG58 = BigInteger.valueOf(58);
- 
+
     public static String convertToBase58(String hash) {
         return convertToBase58(hash, 16);
     }
- 
+
     public static String convertToBase58(String hash, int base) {
         BigInteger x;
         if (base == 16 && hash.substring(0, 2).equals("0x")) {
@@ -98,14 +102,14 @@ public class PrivateKeyGenerator
         } else {
             x = new BigInteger(hash, base);
         }
- 
+
         StringBuilder sb = new StringBuilder();
         while (x.compareTo(BIG0) > 0) {
             int r = x.mod(BIG58).intValue();
             sb.append(ALPHABET.charAt(r));
             x = x.divide(BIG58);
         }
- 
+
         return sb.reverse().toString();
     }
 }
